@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ScanData:jar">
+    <output-path>$PROJECT_DIR$/../Jars/ScanData</output-path>
+    <root id="archive" name="ScanData.jar">
+      <element id="module-output" name="ScanData" />
+    </root>
+  </artifact>
+</component>
