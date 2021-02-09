@@ -1,19 +1,18 @@
 /**
  * 
  */
-package data.packages.implementations;
+package data.packages.implementations.PackageData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import data.ServerAction;
-import data.packages.APackageData;
 
 /**
  * @author JanSt
  *
  */
-public class PackageDataDelete extends APackageData implements Serializable {
+public class PackageDataDelete extends APackageDataFileOperation implements Serializable {
 
 	/**
 	 * 
@@ -24,11 +23,13 @@ public class PackageDataDelete extends APackageData implements Serializable {
 	 * Files to delete
 	 */
     public final ArrayList<String> filesToDelete;
-    
+
+
 	/**
 	 * 
 	 */
-	public PackageDataDelete(ArrayList<String> filesToDelete) {
+	public PackageDataDelete(String folderName, ArrayList<String> filesToDelete) {
+		this.folderName = folderName;
 		this.filesToDelete = filesToDelete;
 	}
 

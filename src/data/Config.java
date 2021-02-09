@@ -1,14 +1,46 @@
 package data;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 public class Config {
 	
 	public final static int SERVER_PORT = 1234;
 	
-	public final static String SERVER_ADDRESS = "raspberrypi";
-	//public final static String SERVER_ADDRESS = "jan";
-	
-	public final static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private final static String SERVER_ADDRESS_RASPBERRY = "raspberrypi";
+	private final static String SERVER_ADDRESS_JAN = "jan";
+
+	/**
+	 * Used by server for folder date formats
+	 */
+	@SuppressWarnings("unused")
+	public final static String dateFormat = "yyyy-MM-dd";
+
+	private static DateTimeFormatter dateTimeFormatter;
+
+	@SuppressWarnings("unused")
+	public static DateTimeFormatter getDateTimeFormatter()
+	{
+		if (dateTimeFormatter == null)
+		{
+			dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat);
+		}
+		return dateTimeFormatter;
+	}
+
+	private static boolean DEBUG = false;
+
+	/**
+	 * Used by clients to switch between debug and live
+	 */
+	@SuppressWarnings("unused")
+	public static void switchDebug()
+	{
+		DEBUG = !DEBUG;
+	}
+
+	public static String getServer()
+	{
+		return DEBUG ? SERVER_ADDRESS_JAN : SERVER_ADDRESS_RASPBERRY;
+	}
 
 }

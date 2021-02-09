@@ -1,7 +1,8 @@
-package data.packages.implementations;
+package data.packages.implementations.PackageData;
 
 import data.ServerAction;
 import data.packages.APackageData;
+import data.packages.interfaces.IStreamListener;
 
 import java.io.Serializable;
 
@@ -11,12 +12,18 @@ public class PackageDataUpdate extends APackageData implements Serializable {
 
     public final String version;
 
-    public PackageDataUpdate(String version) {
+    public PackageDataUpdate(String version)
+    {
         this.version = version;
     }
 
     @Override
     public ServerAction getAction() {
         return ServerAction.CheckUpdate;
+    }
+
+    @Override
+    public byte[] Execute() {
+        return (byte[]) super.Execute();
     }
 }

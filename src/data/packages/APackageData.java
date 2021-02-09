@@ -12,28 +12,47 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import data.Config;
+import data.packages.interfaces.IPackageData;
+import data.packages.interfaces.IStreamListener;
+import data.packages.models.InputStreamProgress;
+import data.packages.models.OutputStreamProgress;
 
 /**
  * @author JanSt
  *
  */
-public abstract class APackageData implements IPackageData 
+public abstract class APackageData implements IPackageData
 {
 
 	public Object Execute()
 	{
+		return Execute(null);
+	}
+
+	public Object Execute(IStreamListener streamListener)
+	{
 		try
 		{
+			String address = Config.getServer();
 			Socket socket = new Socket();
 			InetSocketAddress endpoint;
-			System.out.println("connecting to " + Config.SERVER_ADDRESS + ":" + Config.SERVER_PORT + " ...");
-			endpoint = new InetSocketAddress(InetAddress.getByName(Config.SERVER_ADDRESS), Config.SERVER_PORT);
+			System.out.println("connecting to " + address + ":" + Config.SERVER_PORT + " ...");
+			endpoint = new InetSocketAddress(InetAddress.getByName(address), Config.SERVER_PORT);
 			socket.connect(endpoint);
 			System.out.println("connected!");
 			System.out.println("get output steam..");
 			OutputStream outputStream = socket.getOutputStream();
+			ObjectOutputStream writer;
 			System.out.println("create output writer...");
-			ObjectOutputStream writer = new ObjectOutputStream(outputStream);
+			if (streamListener != null)
+			{
+			OutputStreamProgress outputStreamProgress = new OutputStreamProgress(outputStream, streamListener);
+				writer = new ObjectOutputStream(outputStreamProgress);
+			}
+			else
+			{
+				writer = new ObjectOutputStream(outputStream);
+			}
 
 			System.out.println("sending " + getClass().getName() + " request...");
 			writer.writeObject(this);
@@ -42,10 +61,19 @@ public abstract class APackageData implements IPackageData
 			System.out.println("get input steam..");
 			InputStream inputStream = socket.getInputStream();
 			System.out.println("create input reader...");
-			ObjectInputStream reader = new ObjectInputStream(inputStream);
+			ObjectInputStream reader;
+			if (streamListener != null) {
+				InputStreamProgress inputStreamProgress = new InputStreamProgress(inputStream, streamListener);
+				reader = new ObjectInputStream(inputStreamProgress);
+			}
+			else
+			{
+				reader = new ObjectInputStream(inputStream);
+			}
+
 			System.out.println("read object...");
 			Object result = reader.readObject();
-			System.out.println("Got data!");
+			System.out.println("Got data: " + result);
 			reader.close();
 			writer.close();
 			socket.close();

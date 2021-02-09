@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="ScanData:jar">
-    <output-path>$PROJECT_DIR$/../Jars/ScanData</output-path>
+  <artifact type="jar" name="ScanDataApp">
+    <output-path>$PROJECT_DIR$/../../../Visual Studio Code/Scan_App/scan_app/android/app/libs</output-path>
     <root id="archive" name="ScanData.jar">
       <element id="module-output" name="ScanData" />
     </root>

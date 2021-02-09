@@ -1,18 +1,18 @@
 /**
  * 
  */
-package data.packages.implementations;
+package data.packages.implementations.PackageData;
 
 import java.io.Serializable;
 
 import data.ServerAction;
-import data.packages.APackageData;
+import data.packages.interfaces.IStreamListener;
 
 /**
  * @author JanSt
  *
  */
-public class PackageDataScan extends APackageData implements Serializable {
+public class PackageDataScan extends APackageDataFileOperation implements Serializable {
 	
 	/**
 	 * 
@@ -23,7 +23,8 @@ public class PackageDataScan extends APackageData implements Serializable {
 
     public final String chosenName;
 
-    public PackageDataScan(int ch, String name) {
+	public PackageDataScan(String folderName, int ch, String name) {
+		this.folderName = folderName;
         this.chosenOption = ch;
         this.chosenName = name;
     }

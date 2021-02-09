@@ -6,5 +6,6 @@ public enum ServerAction {
 	DeleteFiles,
 	StreamFile,
 	CheckUpdate,
-	Scan
+	Scan,
+	ReadFolders;
 }

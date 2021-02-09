@@ -1,7 +1,7 @@
 /**
  * 
  */
-package data.packages;
+package data.packages.interfaces;
 
 import data.ServerAction;
 

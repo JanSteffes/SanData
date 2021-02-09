@@ -1,20 +1,19 @@
 /**
  * 
  */
-package data.packages.implementations;
+package data.packages.implementations.PackageData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import data.ServerAction;
-import data.packages.APackageData;
+import data.packages.interfaces.IStreamListener;
 
 /**
  * @author JanSt
  *
  */
-public class PackageDataMerge extends APackageData implements Serializable {
+public class PackageDataMerge extends APackageDataFileOperation implements Serializable {
 
 	
 	/**
@@ -32,8 +31,10 @@ public class PackageDataMerge extends APackageData implements Serializable {
      */
     public final String mergedFileName;
 
-    public PackageDataMerge(String mergedFilename, ArrayList<String> filesToMerge) {
-        this.mergedFileName = mergedFilename;
+
+	public PackageDataMerge(String folderName, String mergedFilename, ArrayList<String> filesToMerge) {
+		this.folderName = folderName;
+		this.mergedFileName = mergedFilename;
         this.filesToMerge = filesToMerge;
     }
 
