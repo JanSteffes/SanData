@@ -8,12 +8,17 @@ import java.io.InputStream;
 public class InputStreamProgress extends InputStream {
 
     private final InputStream inputStream;
-    private long bytesProcessed =0;
+    private long bytesProcessed = 0;
     private final IStreamListener streamListener;
 
     public InputStreamProgress(InputStream inputStream, IStreamListener writeListener) {
         this.inputStream = inputStream;
         this.streamListener = writeListener;
+    }
+
+    public void resetBytesProcessed()
+    {
+        bytesProcessed = 0;
     }
 
     @Override

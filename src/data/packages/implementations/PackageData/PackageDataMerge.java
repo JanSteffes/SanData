@@ -48,7 +48,7 @@ public class PackageDataMerge extends APackageDataFileOperation implements Seria
 	}
 
 	@Override
-	public Boolean Execute() {
-		return (boolean) super.Execute();
+	public Boolean Execute(IStreamListener streamListener) {
+		return (boolean) super.Execute(streamListener);
 	}
 }

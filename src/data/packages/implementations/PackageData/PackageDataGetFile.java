@@ -36,8 +36,8 @@ public class PackageDataGetFile extends APackageDataFileOperation implements Ser
 	}
 
 	@Override
-	public byte[] Execute() {
-		return (byte[]) super.Execute();
+	public byte[] Execute(IStreamListener streamListener) {
+		return (byte[]) super.Execute(streamListener);
 	}
 
 }

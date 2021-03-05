@@ -3,10 +3,7 @@
  */
 package data.packages;
 
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -23,10 +20,13 @@ import data.packages.models.OutputStreamProgress;
  */
 public abstract class APackageData implements IPackageData
 {
+	private int GetSize() throws IOException {
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(outStream);
+		objectOutputStream.writeObject(this);
+		objectOutputStream.flush();
+		return outStream.toByteArray().length;
 
-	public Object Execute()
-	{
-		return Execute(null);
 	}
 
 	public Object Execute(IStreamListener streamListener)
@@ -46,7 +46,8 @@ public abstract class APackageData implements IPackageData
 			System.out.println("create output writer...");
 			if (streamListener != null)
 			{
-			OutputStreamProgress outputStreamProgress = new OutputStreamProgress(outputStream, streamListener);
+				streamListener.setMaxBytesToProcess(GetSize());
+				OutputStreamProgress outputStreamProgress = new OutputStreamProgress(outputStream, streamListener);
 				writer = new ObjectOutputStream(outputStreamProgress);
 			}
 			else
@@ -57,20 +58,26 @@ public abstract class APackageData implements IPackageData
 			System.out.println("sending " + getClass().getName() + " request...");
 			writer.writeObject(this);
 			writer.flush();
-
 			System.out.println("get input steam..");
 			InputStream inputStream = socket.getInputStream();
 			System.out.println("create input reader...");
 			ObjectInputStream reader;
+			InputStreamProgress inputStreamProgress = null;
 			if (streamListener != null) {
-				InputStreamProgress inputStreamProgress = new InputStreamProgress(inputStream, streamListener);
+				streamListener.setMaxBytesToProcess(0);
+				inputStreamProgress = new InputStreamProgress(inputStream, streamListener);
 				reader = new ObjectInputStream(inputStreamProgress);
 			}
-			else
-			{
+			else{
 				reader = new ObjectInputStream(inputStream);
 			}
-
+			int size = reader.readInt();
+			System.out.println("size is " + size + " bytes");
+			if (streamListener != null)
+			{
+				inputStreamProgress.resetBytesProcessed();
+				streamListener.setMaxBytesToProcess(size - (Integer.bitCount(size) / 8) - 4);
+			}
 			System.out.println("read object...");
 			Object result = reader.readObject();
 			System.out.println("Got data: " + result);

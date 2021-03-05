@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import data.ServerAction;
+import data.packages.interfaces.IStreamListener;
 
 /**
  * @author JanSt
@@ -39,8 +40,8 @@ public class PackageDataDelete extends APackageDataFileOperation implements Seri
 	}
 	
 	@Override
-	public Boolean Execute() {
-		return (boolean) super.Execute();
+	public Boolean Execute(IStreamListener streamListener) {
+		return (boolean) super.Execute(streamListener);
 	}
 
 }
