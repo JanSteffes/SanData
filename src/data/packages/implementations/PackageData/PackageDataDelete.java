@@ -1,6 +1,3 @@
-/**
- * 
- */
 package data.packages.implementations.PackageData;
 
 import java.io.Serializable;
@@ -40,8 +37,8 @@ public class PackageDataDelete extends APackageDataFileOperation implements Seri
 	}
 	
 	@Override
-	public Boolean Execute(IStreamListener streamListener) {
-		return (boolean) super.Execute(streamListener);
+	public Boolean execute(IStreamListener streamListener) {
+		return (boolean) super.execute(streamListener);
 	}
 
 }

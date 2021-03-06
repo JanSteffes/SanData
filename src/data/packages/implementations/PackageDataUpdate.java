@@ -23,7 +23,7 @@ public class PackageDataUpdate extends APackageData implements Serializable {
     }
 
     @Override
-    public byte[] Execute(IStreamListener streamListener) {
-        return (byte[]) super.Execute(streamListener);
+    public byte[] execute(IStreamListener streamListener) {
+        return (byte[]) super.execute(streamListener);
     }
 }

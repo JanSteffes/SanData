@@ -44,8 +44,8 @@ public class PackageDataScan extends APackageDataFileOperation implements Serial
 	}
 
 	@Override
-	public Boolean Execute(IStreamListener streamListener) {
-		return (boolean) super.Execute(streamListener);
+	public Boolean execute(IStreamListener streamListener) {
+		return (boolean) super.execute(streamListener);
 	}
 
 }

@@ -26,7 +26,7 @@ public class PackageDataListFolders extends APackageData implements Serializable
 	}
 
 	@Override
-	public String[] Execute(IStreamListener streamListener) {
-		return (String[]) super.Execute(streamListener);
+	public String[] execute(IStreamListener streamListener) {
+		return (String[]) super.execute(streamListener);
 	}
 }

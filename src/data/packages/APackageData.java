@@ -1,6 +1,3 @@
-/**
- * 
- */
 package data.packages;
 
 import java.io.*;
@@ -20,7 +17,7 @@ import data.packages.models.OutputStreamProgress;
  */
 public abstract class APackageData implements IPackageData
 {
-	private int GetSize() throws IOException {
+	private int getSize() throws IOException {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(outStream);
 		objectOutputStream.writeObject(this);
@@ -29,15 +26,15 @@ public abstract class APackageData implements IPackageData
 
 	}
 
-	public Object Execute(IStreamListener streamListener)
+	public Object execute(IStreamListener streamListener)
 	{
 		try
 		{
 			String address = Config.getServer();
 			Socket socket = new Socket();
 			InetSocketAddress endpoint;
-			System.out.println("connecting to " + address + ":" + Config.SERVER_PORT + " ...");
-			endpoint = new InetSocketAddress(InetAddress.getByName(address), Config.SERVER_PORT);
+			System.out.println("connecting to " + address + ":" + Config.getPort() + " ...");
+			endpoint = new InetSocketAddress(InetAddress.getByName(address), Config.getPort());
 			socket.connect(endpoint);
 			System.out.println("connected!");
 			System.out.println("get output steam..");
@@ -46,7 +43,7 @@ public abstract class APackageData implements IPackageData
 			System.out.println("create output writer...");
 			if (streamListener != null)
 			{
-				streamListener.setMaxBytesToProcess(GetSize());
+				streamListener.setMaxBytesToProcess(getSize());
 				OutputStreamProgress outputStreamProgress = new OutputStreamProgress(outputStream, streamListener);
 				writer = new ObjectOutputStream(outputStreamProgress);
 			}

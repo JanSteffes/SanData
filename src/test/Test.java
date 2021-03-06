@@ -1,12 +1,15 @@
 package test;
 
-import data.Config;
+import data.packages.implementations.PackageData.PackageDataDelete;
 import data.packages.implementations.PackageData.PackageDataListFiles;
 import data.packages.implementations.PackageData.PackageDataListFolders;
 import data.packages.implementations.PackageDataUpdate;
 import data.packages.implementations.PackageData.PackageDataUpdateCheck;
 import data.packages.implementations.WriteListener.StreamListener;
 import data.packages.interfaces.IStreamListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Test {
     public static void main(String[] args)
@@ -15,7 +18,8 @@ public class Test {
         IStreamListener streamListener = new StreamListener();
         //ListTest(null);
         //ListTest(streamListener);
-        ListFilesTest(null, null);
+        listFilesTest(null, null);
+        deleteTest(streamListener, "test.pdf", null);
 
 //        ArrayList<String> mergeList = new ArrayList<String>();
 //        mergeList.add("Seite1.pdf");
@@ -23,13 +27,6 @@ public class Test {
 //        PackageDataMerge testMerge = new PackageDataMerge("test", mergeList);
 //        boolean mergeResult = testMerge.Execute();
 //        System.out.println("Mergeresult: " + mergeResult);
-
-//       ArrayList<String> deleteList = new ArrayList<String>();
-//        deleteList.add("testtestetststetsts.pdf");
-//        deleteList.add("testtestetststetststsstetstetstsgststs.pdf");
-//        PackageDataDelete delete = new PackageDataDelete(deleteList);
-//        boolean deleteResult = delete.Execute();
-//        System.out.println("DeleteResult: " + deleteResult);
 
         //UpdateTest("1.0.0");
         //UpdateTest("2.0.0");
@@ -42,38 +39,52 @@ public class Test {
 
     }
 
-    private static void ListTest(IStreamListener streamListener)
+    private static boolean deleteTest(IStreamListener streamListener, String fileName, String folderName)
     {
-        String[] folders = ListFoldersTest(streamListener);
-        String firstFolder = folders[folders.length-1];
-        ListFilesTest(firstFolder, streamListener);
+        if (folderName == null) {
+            folderName = getLatestFolder(streamListener);
+        }
+        PackageDataDelete test = new PackageDataDelete(folderName, new ArrayList<>(Collections.singleton(fileName)));
+        boolean result = test.execute(streamListener);
+        return result;
     }
 
-    private static String[] ListFoldersTest(IStreamListener streamListener)
+    private static void listTest(IStreamListener streamListener)
+    {
+        String firstFolder = getLatestFolder(streamListener);
+        listFilesTest(firstFolder, streamListener);
+    }
+
+    private static String getLatestFolder(IStreamListener streamListener) {
+        String[] folders = listFoldersTest(streamListener);
+        return folders[folders.length - 1];
+    }
+
+    private static String[] listFoldersTest(IStreamListener streamListener)
     {
         PackageDataListFolders test = new PackageDataListFolders();
-        String[] result = test.Execute(streamListener);
+        String[] result = test.execute(streamListener);
         System.out.println("Executed: " + String.join(", ", result));
         return result;
     }
 
-    private static void ListFilesTest(String folderName, IStreamListener streamListener)
+    private static void listFilesTest(String folderName, IStreamListener streamListener)
     {
         PackageDataListFiles test = new PackageDataListFiles(folderName);
-        String[] result = test.Execute(streamListener);
+        String[] result = test.execute(streamListener);
         System.out.println("Executed for folder '" + folderName + "': " + String.join(", ", result));
     }
 
-    private static void UpdateTest(String version, IStreamListener streamListener, boolean tryUpdate)
+    private static void updateTest(String version, IStreamListener streamListener, boolean tryUpdate)
     {
         System.out.println("Testing update for version " + version);
         PackageDataUpdateCheck checkForUpdate = new PackageDataUpdateCheck(version);
-        boolean updateNeeded = checkForUpdate.Execute(streamListener);
+        boolean updateNeeded = checkForUpdate.execute(streamListener);
         if (updateNeeded) {
             System.out.println("Update needed!");
             if (tryUpdate) {
                 PackageDataUpdate testUpdate = new PackageDataUpdate(version);
-                byte[] result = testUpdate.Execute(streamListener);
+                byte[] result = testUpdate.execute(streamListener);
                 if (result == null) {
                     System.out.println("No update needed! (returned null)");
                 } else {

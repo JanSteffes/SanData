@@ -25,7 +25,7 @@ public class PackageDataUpdateCheck extends APackageData implements Serializable
     }
 
     @Override
-    public Boolean Execute(IStreamListener streamListener) {
-        return (boolean) super.Execute(streamListener);
+    public Boolean execute(IStreamListener streamListener) {
+        return (boolean) super.execute(streamListener);
     }
 }

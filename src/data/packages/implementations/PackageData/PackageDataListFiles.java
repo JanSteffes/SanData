@@ -29,7 +29,7 @@ public class PackageDataListFiles extends APackageDataFileOperation implements S
 	}
 
 	@Override
-	public String[] Execute(IStreamListener streamListener) {
-		return (String[]) super.Execute(streamListener);
+	public String[] execute(IStreamListener streamListener) {
+		return (String[]) super.execute(streamListener);
 	}
 }
