@@ -3,7 +3,7 @@ package test;
 import data.packages.implementations.PackageData.PackageDataDelete;
 import data.packages.implementations.PackageData.PackageDataListFiles;
 import data.packages.implementations.PackageData.PackageDataListFolders;
-import data.packages.implementations.PackageDataUpdate;
+import data.packages.implementations.PackageData.PackageDataUpdate;
 import data.packages.implementations.PackageData.PackageDataUpdateCheck;
 import data.packages.implementations.WriteListener.StreamListener;
 import data.packages.interfaces.IStreamListener;
@@ -15,11 +15,13 @@ public class Test {
     public static void main(String[] args)
     {
         //Config.switchDebug();
+        //Config.switchServer();
         IStreamListener streamListener = new StreamListener();
         //ListTest(null);
         //ListTest(streamListener);
         listFilesTest(null, null);
-        deleteTest(streamListener, "test.pdf", null);
+        deleteTest(null, "test.pdf", null);
+        listFilesTest(null, null);
 
 //        ArrayList<String> mergeList = new ArrayList<String>();
 //        mergeList.add("Seite1.pdf");
@@ -41,9 +43,6 @@ public class Test {
 
     private static boolean deleteTest(IStreamListener streamListener, String fileName, String folderName)
     {
-        if (folderName == null) {
-            folderName = getLatestFolder(streamListener);
-        }
         PackageDataDelete test = new PackageDataDelete(folderName, new ArrayList<>(Collections.singleton(fileName)));
         boolean result = test.execute(streamListener);
         return result;

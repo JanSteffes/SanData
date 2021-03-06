@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 public class Config {
 	
 	public final static int SERVER_PORT_PROD = 1234;
-
 	public final static int SERVER_PORT_DEBUG = 1233;
 
 	private final static String SERVER_ADDRESS_RASPBERRY = "raspberrypi";
@@ -31,6 +30,8 @@ public class Config {
 
 	private static boolean DEBUG = false;
 
+	private static boolean RASPBERRYPI = true;
+
 	/**
 	 * Used by clients to switch between debug and live
 	 */
@@ -40,9 +41,19 @@ public class Config {
 		DEBUG = !DEBUG;
 	}
 
+	public static void switchServer()
+	{
+		RASPBERRYPI = !RASPBERRYPI;
+	}
+
+	public static boolean getDebug()
+	{
+		return DEBUG;
+	}
+
 	public static String getServer()
 	{
-		return DEBUG ? SERVER_ADDRESS_JAN : SERVER_ADDRESS_RASPBERRY;
+		return !RASPBERRYPI ? SERVER_ADDRESS_JAN : SERVER_ADDRESS_RASPBERRY;
 	}
 
 	public static int getPort()

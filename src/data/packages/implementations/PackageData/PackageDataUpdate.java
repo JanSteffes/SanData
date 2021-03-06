@@ -1,4 +1,4 @@
-package data.packages.implementations;
+package data.packages.implementations.PackageData;
 
 import data.ServerAction;
 import data.packages.APackageData;
