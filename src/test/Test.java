@@ -1,5 +1,6 @@
 package test;
 
+import data.Config;
 import data.packages.implementations.PackageData.PackageDataDelete;
 import data.packages.implementations.PackageData.PackageDataListFiles;
 import data.packages.implementations.PackageData.PackageDataListFolders;
@@ -14,14 +15,14 @@ import java.util.Collections;
 public class Test {
     public static void main(String[] args)
     {
-        //Config.switchDebug();
-        //Config.switchServer();
+        Config.switchDebug();
+        Config.switchServer();
         IStreamListener streamListener = new StreamListener();
+        deleteTest(null, "test.pdf", null);
         //ListTest(null);
         //ListTest(streamListener);
-        listFilesTest(null, null);
-        deleteTest(null, "test.pdf", null);
-        listFilesTest(null, null);
+        //listFoldersTest(null);
+        //listFilesTest(null, null);
 
 //        ArrayList<String> mergeList = new ArrayList<String>();
 //        mergeList.add("Seite1.pdf");

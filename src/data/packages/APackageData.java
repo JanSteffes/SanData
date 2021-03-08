@@ -26,6 +26,14 @@ public abstract class APackageData implements IPackageData
 
 	}
 
+	private void log(String message)
+	{
+		if (Config.getDebug())
+		{
+			System.out.println(message);
+		}
+	}
+
 	public Object execute(IStreamListener streamListener)
 	{
 		try
@@ -33,14 +41,14 @@ public abstract class APackageData implements IPackageData
 			String address = Config.getServer();
 			Socket socket = new Socket();
 			InetSocketAddress endpoint;
-			System.out.println("connecting to " + address + ":" + Config.getPort() + " ...");
+			log("connecting to " + address + ":" + Config.getPort() + " ...");
 			endpoint = new InetSocketAddress(InetAddress.getByName(address), Config.getPort());
 			socket.connect(endpoint);
-			System.out.println("connected!");
-			System.out.println("get output steam..");
+			log("connected!");
+			log("get output steam..");
 			OutputStream outputStream = socket.getOutputStream();
 			ObjectOutputStream writer;
-			System.out.println("create output writer...");
+			log("create output writer...");
 			if (streamListener != null)
 			{
 				streamListener.setMaxBytesToProcess(getSize());
@@ -52,12 +60,12 @@ public abstract class APackageData implements IPackageData
 				writer = new ObjectOutputStream(outputStream);
 			}
 
-			System.out.println("sending " + getClass().getName() + " request...");
+			log("sending " + getClass().getName() + " request...");
 			writer.writeObject(this);
 			writer.flush();
-			System.out.println("get input steam..");
+			log("get input steam..");
 			InputStream inputStream = socket.getInputStream();
-			System.out.println("create input reader...");
+			log("create input reader...");
 			ObjectInputStream reader;
 			InputStreamProgress inputStreamProgress = null;
 			if (streamListener != null) {
@@ -69,19 +77,19 @@ public abstract class APackageData implements IPackageData
 				reader = new ObjectInputStream(inputStream);
 			}
 			int size = reader.readInt();
-			System.out.println("size is " + size + " bytes");
+			log("size is " + size + " bytes");
 			if (streamListener != null)
 			{
 				inputStreamProgress.resetBytesProcessed();
 				streamListener.setMaxBytesToProcess(size - (Integer.bitCount(size) / 8) - 4);
 			}
-			System.out.println("read object...");
+			log("read object...");
 			Object result = reader.readObject();
-			System.out.println("Got data: " + result);
+			log("Got data: " + result);
 			reader.close();
 			writer.close();
 			socket.close();
-			System.out.println("terminating connection..");
+			log("terminating connection..");
 			return result;
 		}
 		catch(Exception e)
